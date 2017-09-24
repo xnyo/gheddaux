@@ -34,6 +34,11 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    # Don't do anything in private messages
+    if message.server is None:
+        return
+
+    # Process commands
     try:
         await bot.process_commands(message)
     except commands.errors.CheckFailure:

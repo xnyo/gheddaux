@@ -1,6 +1,8 @@
 import asyncio
+import time
 
 from discord.ext import commands
+from signal import signal, SIGINT
 
 from singletons.bot import Bot
 from singletons.config import Config
@@ -113,7 +115,13 @@ try:
       Nazi Bot - Made by Nyo\033[0m\n""")
     print("=> Logging in")
     bot.loop.run_until_complete(connect_db())
-    bot.loop.run_until_complete(bot.start(Config()["BOT_TOKEN"]))
+    signal(SIGINT, lambda s, f: bot.loop.stop())
+    while True:
+        try:
+            bot.loop.run_until_complete(bot.start(Config()["BOT_TOKEN"]))
+        except TimeoutError:
+            print("[!] TimeoutError! Reconnecting...")
+            time.sleep(1)
 except KeyboardInterrupt:
     print("=> Disposing bot")
     bot.loop.run_until_complete(bot.logout())

@@ -40,6 +40,10 @@ async def on_message(message):
     if message.server is None:
         return
 
+    # Check server id
+    if not message.server.id.isdecimal() or int(message.server.id) not in Config()["SERVER_IDS"]:
+        return
+
     # Process commands
     try:
         await bot.process_commands(message)

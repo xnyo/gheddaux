@@ -87,8 +87,8 @@ class Redacted(commands.Cog):
 			for banned_word in banned_words:
 				if banned_word in message_words:
 					await message.delete()
-					print(
-						f"=> Deleted message from {message.author.name} [{message.author.id}] ({message.content})"
+					Bot().logger.info(
+						f"Deleted message from {message.author.name} [{message.author.id}] ({message.content})"
 					)
 					await Bot().log(
 						f"**Deleted message from {message.author.mention}:** "

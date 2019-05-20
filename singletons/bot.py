@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from aiotinydb import AIOTinyDB, AIOJSONStorage
@@ -9,6 +10,8 @@ from utils.singleton import singleton
 
 @singleton
 class Bot:
+    logger = logging.getLogger("bot")
+
     def __init__(
         self, *args,
         allowed_server_ids: List[int] = None, log_channel_id: int = None, welcome_channel_id: int = None,
@@ -18,6 +21,11 @@ class Bot:
         self.allowed_server_ids = allowed_server_ids
         self.log_channel_id = log_channel_id
         self.welcome_channel_id = welcome_channel_id
+        self.bot.on_command_error = self.on_command_error
+
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.CheckFailure):
+            self.logger.warning(f"Command check failure in message {ctx.message}")
 
     @staticmethod
     def censored_words_db() -> AIOTinyDB:

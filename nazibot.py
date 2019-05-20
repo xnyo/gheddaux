@@ -1,3 +1,4 @@
+import logging
 import time
 from signal import signal, SIGINT
 
@@ -9,6 +10,8 @@ from singletons.database import Database
 
 
 if __name__ == "__main__":
+    logging.getLogger("discord").setLevel(logging.ERROR)
+    logging.basicConfig(level=logging.INFO)
     print("""\033[92m                 _ _       _
      ___ ___ ___|_| |_ ___| |_
     |   | .'|- _| | . | . |  _|
@@ -25,18 +28,18 @@ if __name__ == "__main__":
     bot.add_cog(Redacted(bot))
 
     try:
-        print("=> Starting bot")
+        Bot().logger.info("Starting bot")
         signal(SIGINT, lambda s, f: bot.loop.stop())
         while True:
             try:
                 bot.loop.run_until_complete(bot.start(Config()["BOT_TOKEN"]))
             except TimeoutError:
-                print("[!] TimeoutError! Reconnecting...")
+                Bot().logger.warning("TimeoutError! Reconnecting in 1 second")
                 time.sleep(1)
     except KeyboardInterrupt:
-        print("=> Disposing bot")
+        Bot().logger.info("Disposing bot")
         bot.loop.run_until_complete(bot.logout())
         bot.loop.run_until_complete(Database().dispose())
     finally:
         bot.loop.close()
-        print("=> Bot stopped, goodbye!")
+        Bot().logger.info("Bot stopped, goodbye!")

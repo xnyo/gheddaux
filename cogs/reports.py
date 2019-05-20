@@ -1,3 +1,4 @@
+import asyncio
 import random
 from datetime import datetime
 
@@ -27,7 +28,13 @@ class Reports(commands.Cog):
 		).add_field(
 			name="Report", value=message.content, inline=False
 		)
-		await self.bot.get_channel(Bot().reports_admin_channel_id).send(embed=e)
+		admin_message = await self.bot.get_channel(Bot().reports_admin_channel_id).send(embed=e)
+
+		async def add_emojis():
+			for x in ("👍", "👎", "❗"):
+				await admin_message.add_reaction(x)
+		asyncio.ensure_future(add_emojis())
+
 		await message.delete()
 		await message.author.send(
 			f"Hey there, {message.author}! Thank you for your report. "

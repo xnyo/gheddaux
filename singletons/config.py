@@ -9,6 +9,7 @@ class Config:
         self._config = {
             "BOT_TOKEN": config("BOT_TOKEN", default=""),
             "SERVER_IDS": config("SERVER_IDS", cast=Csv(int)),
+            "LOG_CHANNEL_ID": config("LOG_CHANNEL_ID", cast=int),
             "DB_DSN": config("DB_DSN", default="Driver=SQLite3;Database=nazi.db")
         }
 

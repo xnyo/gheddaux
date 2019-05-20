@@ -12,8 +12,8 @@ class Redacted(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 
-	@commands.command(pass_context=True, no_pm=True)
-	@checks.admin_only()
+	@commands.command()
+	@checks.privileged()
 	async def censor(self, ctx, word: Optional[str] = None) -> None:
 		# Syntax check
 		if word is None:
@@ -35,8 +35,8 @@ class Redacted(commands.Cog):
 		# Bot's reply
 		await ctx.send(f"**{word}** is now censored!")
 
-	@commands.command(pass_context=True, no_pm=True)
-	@checks.admin_only()
+	@commands.command()
+	@checks.privileged()
 	async def uncensor(self, ctx, word: Optional[str] = None) -> None:
 		# Syntax check
 		if word is None:
@@ -58,8 +58,8 @@ class Redacted(commands.Cog):
 		# Bot's reply
 		await ctx.send(f"**{word}** isn't censored anymore!")
 
-	@commands.command(pass_context=True, no_pm=True)
-	@checks.admin_only()
+	@commands.command()
+	@checks.privileged()
 	async def censoredwords(self, ctx) -> None:
 		async with Bot().censored_words_db() as db:
 			results = db.all()

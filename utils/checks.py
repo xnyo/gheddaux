@@ -5,7 +5,7 @@ from discord import Member
 def is_admin(message):
     if type(message.author) is not Member:
         return False
-    return message.author.server_permissions.administrator
+    return message.author.permissions_in(message.channel).administrator
 
 
 def admin_only():

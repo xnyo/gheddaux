@@ -16,7 +16,7 @@ bot = Bot(
 
 @bot.event
 async def on_ready() -> None:
-    print("=> Logged in as {} [{}]. Ready!".format(bot.user.name, bot.user.id))
+    print(f"=> Logged in as {bot.user.name} [{bot.user.id}]. Ready!")
     await Bot().log("Started")
 
 

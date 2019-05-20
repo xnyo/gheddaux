@@ -25,7 +25,7 @@ class Redacted(commands.Cog):
 		async with Bot().censored_words_db() as db:
 			db_word = db.search(Query().word == word)
 		if db_word:
-			await ctx.send("**{}** is already censored!".format(word))
+			await ctx.send(f"**{word}** is already censored!")
 			return
 
 		# Censor new word
@@ -33,7 +33,7 @@ class Redacted(commands.Cog):
 			db.insert({"word": word})
 
 		# Bot's reply
-		await ctx.send("**{}** is now censored!".format(word))
+		await ctx.send(f"**{word}** is now censored!")
 
 	@commands.command(pass_context=True, no_pm=True)
 	@checks.admin_only()
@@ -48,7 +48,7 @@ class Redacted(commands.Cog):
 		async with Bot().censored_words_db() as db:
 			db_word = db.search(Query().word == word)
 		if not db_word:
-			await ctx.send("**{}** is not censored!".format(word))
+			await ctx.send(f"**{word}** is not censored!")
 			return
 
 		# Uncensor word
@@ -56,7 +56,7 @@ class Redacted(commands.Cog):
 			db.remove(Query().word == word)
 
 		# Bot's reply
-		await ctx.send("**{}** isn't censored anymore!".format(word))
+		await ctx.send(f"**{word}** isn't censored anymore!")
 
 	@commands.command(pass_context=True, no_pm=True)
 	@checks.admin_only()

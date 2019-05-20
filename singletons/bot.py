@@ -15,12 +15,15 @@ class Bot:
     def __init__(
         self, *args,
         allowed_server_ids: List[int] = None, log_channel_id: int = None, welcome_channel_id: int = None,
+        reports_user_channel_id: int = None, reports_admin_channel_id: int = None,
         **kwargs
     ):
         self.bot = commands.Bot(*args, **kwargs)
         self.allowed_server_ids = allowed_server_ids
         self.log_channel_id = log_channel_id
         self.welcome_channel_id = welcome_channel_id
+        self.reports_user_channel_id = reports_user_channel_id
+        self.reports_admin_channel_id = reports_admin_channel_id
         self.bot.on_command_error = self.on_command_error
 
     async def on_command_error(self, ctx, error):
@@ -33,3 +36,7 @@ class Bot:
 
     async def log(self, message: str) -> None:
         await (self.bot.get_channel(self.log_channel_id)).send(message)
+
+    @property
+    def reports_enabled(self) -> bool:
+        return bool(self.reports_admin_channel_id) and bool(self.reports_user_channel_id)

@@ -10,6 +10,7 @@ class Config:
             "BOT_TOKEN": config("BOT_TOKEN", default=""),
             "SERVER_IDS": config("SERVER_IDS", cast=Csv(int)),
             "LOG_CHANNEL_ID": config("LOG_CHANNEL_ID", cast=int),
+            "WELCOME_CHANNEL_ID": config("WELCOME_CHANNEL_ID", cast=int, default=""),
             "DB_DSN": config("DB_DSN", default="Driver=SQLite3;Database=nazi.db")
         }
 

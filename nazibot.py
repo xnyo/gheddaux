@@ -2,6 +2,7 @@ import logging
 import time
 from signal import signal, SIGINT
 
+from cogs.moderation import Moderation
 from cogs.redacted import Redacted
 from cogs.welcome import Welcome
 from singletons.bot import Bot
@@ -25,7 +26,10 @@ if __name__ == "__main__":
     ).bot
     if Bot().welcome_channel_id:
         bot.add_cog(Welcome())
+    else:
+        Bot().logger.warning("Welcome cog is disabled.")
     bot.add_cog(Redacted(bot))
+    bot.add_cog(Moderation())
 
     try:
         Bot().logger.info("Starting bot")

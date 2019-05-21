@@ -8,7 +8,6 @@ from cogs.reports import Reports
 from cogs.welcome import Welcome
 from singletons.bot import Bot
 from singletons.config import Config
-from singletons.database import Database
 
 
 if __name__ == "__main__":
@@ -51,7 +50,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         Bot().logger.info("Disposing bot")
         bot.loop.run_until_complete(bot.logout())
-        bot.loop.run_until_complete(Database().dispose())
     finally:
         bot.loop.close()
         Bot().logger.info("Bot stopped, goodbye!")

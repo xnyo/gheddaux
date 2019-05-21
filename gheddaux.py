@@ -14,11 +14,12 @@ from singletons.database import Database
 if __name__ == "__main__":
     logging.getLogger("discord").setLevel(logging.ERROR)
     logging.basicConfig(level=logging.INFO)
-    print("""\033[92m                 _ _       _
-     ___ ___ ___|_| |_ ___| |_
-    |   | .'|- _| | . | . |  _|
-    |_|_|__,|___|_|___|___|_|
-      Nazi Bot - Made by Nyo\033[0m\n""")
+    print("""\033[92m     _         _   _             
+ ___| |_ ___ _| |_| |___ _ _ _ _ 
+| . |   | -_| . | . | .'| | |_'_|
+|_  |_|_|___|___|___|__,|___|_,_|
+|___|                            
+      Gheddaux - Made by Nyo\033[0m""")
     bot = Bot(
         command_prefix=";",
         allowed_server_ids=Config()["SERVER_IDS"],

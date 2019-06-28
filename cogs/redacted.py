@@ -64,6 +64,10 @@ class Redacted(commands.Cog):
 		async with Bot().censored_words_db() as db:
 			results = db.all()
 		await ctx.send("**Censored words:** {}".format(", ".join(x["word"] for x in results)))
+		
+	@commands.Cog.listener()
+	async def on_message_edit(self, before: discord.Message, after: discord.Message) -> None:
+		await self.on_message(after)
 
 	@commands.Cog.listener()
 	async def on_message(self, message: discord.Message) -> None:

@@ -13,7 +13,8 @@ class Moderation(commands.Cog):
 		Checks if '<user_id>' is in the current Discord guild.
 		"""
 
-		if ctx.message.guild.get_member(user_id) is None:
+		u = ctx.message.guild.get_member(user_id)
+		if u is None:
 			await ctx.send("No. The specified user is not in this guild.")
 		await ctx.send(f"Yes. Username: `{u.name}`")
 

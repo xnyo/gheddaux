@@ -14,53 +14,68 @@ class Redacted(commands.Cog):
 
 	@commands.command()
 	@checks.privileged()
-	async def censor(self, ctx, word: Optional[str] = None) -> None:
+	async def censor(self, ctx, *, word: Optional[str] = None) -> None:
+		"""
+		<...words> ~ Censors many words
+		"""
+
 		# Syntax check
 		if word is None:
 			await ctx.send("**Invalid syntax**. `!censor word`")
 			return
 
-		# Make sure the word is not already censored
-		word = word.lower()
-		async with Bot().censored_words_db() as db:
-			db_word = db.search(Query().word == word)
-		if db_word:
-			await ctx.send(f"**{word}** is already censored!")
-			return
+		words = word.split(" ")
+		for w in words:
+			# Make sure the word is not already censored
+			w = w.lower()
+			async with Bot().censored_words_db() as db:
+				db_word = db.search(Query().word == w)
+			if db_word:
+				await ctx.send(f"**{w}** is already censored!")
+				continue
 
-		# Censor new word
-		async with Bot().censored_words_db() as db:
-			db.insert({"word": word})
+			# Censor new word
+			async with Bot().censored_words_db() as db:
+				db.insert({"word": w})
 
-		# Bot's reply
-		await ctx.send(f"**{word}** is now censored!")
+			# Bot's reply
+			await ctx.send(f"**{w}** is now censored!")
 
 	@commands.command()
 	@checks.privileged()
-	async def uncensor(self, ctx, word: Optional[str] = None) -> None:
+	async def uncensor(self, ctx, *, word: Optional[str] = None) -> None:
+		"""
+		<...words> ~ Uncensors many words
+		"""
+
 		# Syntax check
 		if word is None:
 			await ctx.send("**Invalid syntax**. `!uncensor word`")
 			return
 
 		# Make sure the word is censored
-		word = word.lower()
-		async with Bot().censored_words_db() as db:
-			db_word = db.search(Query().word == word)
-		if not db_word:
-			await ctx.send(f"**{word}** is not censored!")
-			return
+		for w in word.split(" "):
+			w = w.lower()
+			async with Bot().censored_words_db() as db:
+				db_word = db.search(Query().word == w)
+			if not db_word:
+				await ctx.send(f"**{w}** is not censored!")
+				continue
 
-		# Uncensor word
-		async with Bot().censored_words_db() as db:
-			db.remove(Query().word == word)
+			# Uncensor word
+			async with Bot().censored_words_db() as db:
+				db.remove(Query().word == w)
 
-		# Bot's reply
-		await ctx.send(f"**{word}** isn't censored anymore!")
+			# Bot's reply
+			await ctx.send(f"**{w}** isn't censored anymore!")
 
 	@commands.command()
 	@checks.privileged()
 	async def censoredwords(self, ctx) -> None:
+		"""
+		Lists all currently censored words
+		"""
+
 		async with Bot().censored_words_db() as db:
 			results = db.all()
 		await ctx.send("**Censored words:** {}".format(", ".join(x["word"] for x in results)))

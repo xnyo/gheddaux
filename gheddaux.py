@@ -28,7 +28,7 @@ if __name__ == "__main__":
         reports_admin_channel_id=Config()["REPORTS_ADMIN_CHANNEL_ID"],
     ).bot
     if Bot().welcome_channel_id:
-        bot.add_cog(Welcome())
+        bot.add_cog(Welcome(bot))
     else:
         Bot().logger.warning("Welcome cog is disabled.")
     bot.add_cog(Redacted(bot))

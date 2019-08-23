@@ -10,18 +10,12 @@ class Moderation(commands.Cog):
 	@checks.privileged()
 	async def isin(self, ctx, user_id: int) -> None:
 		"""
-		Checks if '<user_id>' is in an allowed Discord server.
+		Checks if '<user_id>' is in the current Discord guild.
 		"""
 
-		u = ctx.bot.get_user(user_id)
-		if u is None:
-			await ctx.send("User not found")
-			return
-		profile = await u.profile()
-		if not any(x in Bot().allowed_server_ids for x in await u.profile().mutual_guilds):
-			await ctx.send("No. The specified user is not in any of the allowed guilds.")
-			return
-		await ctx.send(f"Yes. Username: `{u.username}`")
+		if ctx.message.guild.get_member(user_id) is None:
+			await ctx.send("No. The specified user is not in this guild.")
+		await ctx.send(f"Yes. Username: `{u.name}`")
 
 	@commands.command()
 	@checks.privileged()

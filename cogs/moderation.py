@@ -10,7 +10,7 @@ class Moderation(commands.Cog):
 	@checks.privileged()
 	async def isin(self, ctx, user_id: int) -> None:
 		"""
-		<user_id> ~ Checks if '<user_id>' is in an allowed Discord server.
+		Checks if '<user_id>' is in an allowed Discord server.
 		"""
 
 		u = ctx.bot.get_user(user_id)
@@ -27,7 +27,7 @@ class Moderation(commands.Cog):
 	@checks.privileged()
 	async def prune(self, ctx, how_many: int) -> None:
 		"""
-		<x> ~ Deletes '<x>' messages in the current channel.
+		Deletes '<x>' messages in the current channel.
 		"""
 
 		if how_many > 50:
@@ -40,7 +40,7 @@ class Moderation(commands.Cog):
 	@checks.privileged()
 	async def pruneu(self, ctx, member: discord.User, how_many: int) -> None:
 		"""
-		<@user> <x> ~ Deletes '<x>' messages sent by '<@user>' in the current channel.
+		Deletes '<x>' messages sent by '<@user>' in the current channel.
 		"""
 
 		if how_many > 50:

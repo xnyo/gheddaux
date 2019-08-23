@@ -16,7 +16,7 @@ class Redacted(commands.Cog):
 	@checks.privileged()
 	async def censor(self, ctx, *, word: Optional[str] = None) -> None:
 		"""
-		<...words> ~ Censors many words
+		Censors many words
 		"""
 
 		# Syntax check
@@ -45,7 +45,7 @@ class Redacted(commands.Cog):
 	@checks.privileged()
 	async def uncensor(self, ctx, *, word: Optional[str] = None) -> None:
 		"""
-		<...words> ~ Uncensors many words
+		Uncensors many words
 		"""
 
 		# Syntax check

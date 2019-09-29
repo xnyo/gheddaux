@@ -4,3 +4,4 @@
 settings.ini
 *.db
 *.json
+Dockerfile

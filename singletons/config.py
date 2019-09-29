@@ -13,7 +13,7 @@ class Config:
             "WELCOME_CHANNEL_ID": config("WELCOME_CHANNEL_ID", cast=int, default=""),
             "REPORTS_USER_CHANNEL_ID": config("REPORTS_USER_CHANNEL_ID", cast=int, default=""),
             "REPORTS_ADMIN_CHANNEL_ID": config("REPORTS_ADMIN_CHANNEL_ID", cast=int, default=""),
-            "DB_DSN": config("DB_DSN", default="Driver=SQLite3;Database=nazi.db")
+            "DB_FILE": config("DB_FILE", default="censored_words.json")
         }
 
     def __getitem__(self, item):

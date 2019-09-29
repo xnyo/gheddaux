@@ -13,12 +13,13 @@ from singletons.config import Config
 if __name__ == "__main__":
     logging.getLogger("discord").setLevel(logging.ERROR)
     logging.basicConfig(level=logging.INFO)
-    print("""\033[92m     _         _   _             
+    logging.info("""\n
+     _         _   _             
  ___| |_ ___ _| |_| |___ _ _ _ _ 
 | . |   | -_| . | . | .'| | |_'_|
 |_  |_|_|___|___|___|__,|___|_,_|
 |___|                            
-      Gheddaux - Made by Nyo\033[0m""")
+      Gheddaux - Made by Nyo""")
     bot = Bot(
         command_prefix=";",
         allowed_server_ids=Config()["SERVER_IDS"],
@@ -26,7 +27,17 @@ if __name__ == "__main__":
         welcome_channel_id=Config()["WELCOME_CHANNEL_ID"],
         reports_user_channel_id=Config()["REPORTS_USER_CHANNEL_ID"],
         reports_admin_channel_id=Config()["REPORTS_ADMIN_CHANNEL_ID"],
+        db_file=Config()["DB_FILE"]
     ).bot
+
+    @bot.event
+    async def on_command_error(ctx, exception) -> None:
+        # I don't even want to know why the fuck I have to do this in the first place
+        try:
+            raise exception
+        except:
+            Bot().logger.exception("An unhandled exception has been raised.")
+
     if Bot().welcome_channel_id:
         bot.add_cog(Welcome(bot))
     else:

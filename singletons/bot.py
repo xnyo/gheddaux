@@ -1,4 +1,6 @@
 import logging
+import traceback
+import sys
 from typing import List
 
 from aiotinydb import AIOTinyDB, AIOJSONStorage
@@ -16,6 +18,7 @@ class Bot:
         self, *args,
         allowed_server_ids: List[int] = None, log_channel_id: int = None, welcome_channel_id: int = None,
         reports_user_channel_id: int = None, reports_admin_channel_id: int = None,
+        db_file: str = None,
         **kwargs
     ):
         self.bot = commands.Bot(*args, **kwargs)
@@ -24,15 +27,10 @@ class Bot:
         self.welcome_channel_id = welcome_channel_id
         self.reports_user_channel_id = reports_user_channel_id
         self.reports_admin_channel_id = reports_admin_channel_id
-        self.bot.on_command_error = self.on_command_error
+        self.db_file = db_file
 
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.CheckFailure):
-            self.logger.warning(f"Command check failure in message {ctx.message}")
-
-    @staticmethod
-    def censored_words_db() -> AIOTinyDB:
-        return AIOTinyDB("censored_words.json", storage=CachingMiddleware(AIOJSONStorage))
+    def censored_words_db(self) -> AIOTinyDB:
+        return AIOTinyDB(self.db_file, storage=CachingMiddleware(AIOJSONStorage))
 
     async def log(self, message: str) -> None:
         await (self.bot.get_channel(self.log_channel_id)).send(message)
